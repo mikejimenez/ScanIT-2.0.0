@@ -40,12 +40,14 @@ public class MainActivity extends Activity {
     private static final String TAG = "MAKE_BARCODES";
     String ScanFromFedEXG;
     String ScanFromFedEXE;
+    String ScanFromUPS;
     private TextView CounterTxt;
     TextView CounterTxtSet;
     TextView CounterTxtSave;
     private Integer Counter = 0;
     private String[] log = new String[100];
     String Output;
+    private String Error = "";
 
 
     @Override
@@ -93,19 +95,20 @@ public class MainActivity extends Activity {
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog,
                                             int whichButton) {
-
+                            Error = "";
                             Editable value = scanData.getText();
                             String Result = Filter(scanContent);
 
-                            db.addBarcodes(new Barcodes(Result, value.toString()));
-                            Counter++;
-                            db.close();
-                            CreateListView();
-                            //Todo: Fix Boxing
-                            String setText = Integer.valueOf(Counter).toString();
-                            CounterTxt.setText(setText);
-                        }
-                    }).setNegativeButton("Cancel",
+                            if (!Error.contains("Y")) {
+                                db.addBarcodes(new Barcodes(Result, value.toString()));
+                                Counter++;
+                                db.close();
+                                CreateListView();
+                                //Todo: Fix Boxing
+                                String setText = Integer.valueOf(Counter).toString();
+                                CounterTxt.setText(setText);
+                            }
+                        }}).setNegativeButton("Cancel",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog,
                                             int whichButton) {
@@ -113,7 +116,7 @@ public class MainActivity extends Activity {
                         }
                     });
             alert.show();
-        } else if (resultCode == RESULT_CANCELED) {
+        }else if (resultCode == RESULT_CANCELED) {
             ScanDataEmpty();
         }
     }
@@ -177,11 +180,18 @@ public class MainActivity extends Activity {
             ScanFromFedEXG = Number.substring(Number.length() - 22, Number.length());
             return ScanFromFedEXG;
         }
-        if (Number.length() < 11) {
+
+        if (Number.contains("1Z")) {
+            ScanFromUPS = Number;
+            return ScanFromUPS;
+        }
+        else  {
 
             /**
              * Error
              */
+
+            Error ="Y";
             ScanDataEmpty();
         }
 
@@ -312,6 +322,7 @@ public class MainActivity extends Activity {
                 i++;
             }
 
+
             /**
              * Fedex Ground New  - 34 Characters
              * Fedex Express New - 34 Characters
@@ -324,7 +335,6 @@ public class MainActivity extends Activity {
                 i++;
             }
         }
-
     }
 
 
