@@ -167,6 +167,7 @@ public class MainActivity extends Activity {
             /**
              * System.out.println("Added Type Fedex Ground Old");
              */
+             //Todo: Remove the use of MJ to display on the screen
             String buffer = "MJ";
             ScanFromFedEXG = buffer + Number.substring(Number.length() - 22, Number.length());
 
@@ -211,7 +212,7 @@ public class MainActivity extends Activity {
                         if (Result.length() == 0) {
                             ScanDataEmpty();
                         }
-
+                            //Todo: Remove the use of MJ to display characters
                         if (Result.length() == 21) {
                             String buffer = "MJ";
                             final String ManualScanFedExG = buffer + Result.substring(Result.length() - 21, Result.length());
@@ -360,7 +361,7 @@ public class MainActivity extends Activity {
 
     private void DisplaySharedPreferences() {
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        Map<String, ?> allPrefs = settings.getAll(); //your sharedPreference
+        Map<String, ?> allPrefs = settings.getAll(); 
         Set<String> set = allPrefs.keySet();
 
         for (String s : set) {
