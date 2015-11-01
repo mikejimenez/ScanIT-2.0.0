@@ -350,8 +350,6 @@ public class MainActivity extends Activity {
         Intent i = new Intent(Intent.ACTION_SEND);
         i.setType("message/rfc822");
         i.putExtra(Intent.EXTRA_SUBJECT, "Tracking Numbers");
-        String[] TO = {"Receiving@cdaresort.com"};
-        i.putExtra(Intent.EXTRA_EMAIL, TO);
         UpdateLog();
         String newString = Arrays.toString(log);
         String FilterA = newString.replace(", null", "");
