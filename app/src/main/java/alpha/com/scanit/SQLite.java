@@ -125,6 +125,7 @@ public class SQLite extends SQLiteOpenHelper {
     }
 
         /**
+         * http://stackoverflow.com/a/27003490
          * Helper function that parses a given table into a string
          * and returns it for easy printing. The string consists of
          * the table name and then each row is iterated through with
