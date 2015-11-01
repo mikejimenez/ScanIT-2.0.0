@@ -32,8 +32,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/listView"
-        android:layout_below="@+id/scan_content"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/scan_content" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -75,7 +75,7 @@
         android:textIsSelectable="false" />
 
     <Button
-        style="?android:attr/buttonStyleSmall"
+        style="@style/Widget.AppCompat.Button.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/ManButton"
@@ -83,6 +83,6 @@
         android:layout_above="@+id/textView2"
         android:layout_toEndOf="@+id/textView2"
         android:layout_marginStart="20dp"
-        android:alpha="128" />
+        android:alpha="250" />
 
 </RelativeLayout>

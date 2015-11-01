@@ -24,11 +24,11 @@ import com.alpha.ZXing.android.IntentIntegrator;
 import com.alpha.ZXing.android.IntentResult;
 
 import android.util.Log;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 
 public class MainActivity extends Activity {
 
@@ -61,6 +61,7 @@ public class MainActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_main);
+
         LoadData();
     }
 
@@ -95,8 +96,8 @@ public class MainActivity extends Activity {
 
                             Editable value = scanData.getText();
                             String Result = Filter(scanContent);
+
                             db.addBarcodes(new Barcodes(Result, value.toString()));
-                            //DisplaySharedPreferences();
                             Counter++;
                             db.close();
                             CreateListView();
@@ -150,29 +151,34 @@ public class MainActivity extends Activity {
     private String Filter(String Number) {
 
         if (Number.length() == 34) {
+
             /**
              * System.out.println("Added Type Fedex Express");
+             * System.out.println("Added Type Fedex Ground New");
              */
             ScanFromFedEXE = Number.substring(Number.length() - 12, Number.length());
             return ScanFromFedEXE;
         }
         if (Number.length() == 32) {
+
             /**
+             * System.out.println("Added Type Fedex Express Old");
              * System.out.println("Added Type Fedex Ground");
              */
             ScanFromFedEXG = Number.substring(Number.length() - 16, Number.length() - 4);
             return ScanFromFedEXG;
         }
         if (Number.length() == 22) {
+
             /**
              * System.out.println("Added Type Fedex Ground Old");
              */
-            String buffer = "MJ";
-            ScanFromFedEXG = buffer + Number.substring(Number.length() - 22, Number.length());
 
+            ScanFromFedEXG = Number.substring(Number.length() - 22, Number.length());
             return ScanFromFedEXG;
         }
         if (Number.length() < 11) {
+
             /**
              * Error
              */
@@ -213,14 +219,13 @@ public class MainActivity extends Activity {
                         }
 
                         if (Result.length() == 21) {
-                            String buffer = "MJ";
-                            final String ManualScanFedExG = buffer + Result.substring(Result.length() - 21, Result.length());
+                            final String ManualScanFedExG = Result;
 
                             db.addBarcodes(new Barcodes(ManualScanFedExG, value.toString()));
                             Counter++;
                             db.close();
-
                             CreateListView();
+                            UpdateLog();
                             //Todo: Fix Boxing
                             CounterTxt.setText(Integer.valueOf(Counter).toString());
 
@@ -228,9 +233,8 @@ public class MainActivity extends Activity {
                             db.addBarcodes(new Barcodes(Result, value.toString()));
                             Counter++;
                             db.close();
-
+                            UpdateLog();
                             CreateListView();
-
                             CounterTxt.setText(Integer.valueOf(Counter).toString());
                         }
                     }
@@ -258,16 +262,6 @@ public class MainActivity extends Activity {
             String bar = cn.getBarcode();
 
             /**
-             * Fedex Ground OLD - 22 Characters add MJ to display on screen
-             */
-
-            if (bar.length() == 24) {
-                Output = FormatString.FedEXGO(bar);
-                log[i] = "\n" + Output + " / " + cn.getCompany();
-                i++;
-            }
-
-            /**
              * UPS Manual - 23 Characters
              */
 
@@ -278,14 +272,25 @@ public class MainActivity extends Activity {
             }
 
             /**
+             * Fedex Ground OLD - 22 Characters
+             */
+
+            if (bar.length() == 22) {
+                Output = FormatString.FedEXGO(bar);
+                log[i] = "\n" + Output + " / " + cn.getCompany();
+                i++;
+            }
+
+            /**
              * Fedex Ground Manual - 23 Characters
              */
 
-            if (bar.length() == 23 && !bar.contains("Z")) {
+            if (bar.length() == 21 && !bar.contains("Z")) {
                 Output = FormatString.ManualFedEXG(bar);
                 log[i] = "\n" + Output + " / " + cn.getCompany();
                 i++;
             }
+
 
             /**
              * UPS - 18 Characters
@@ -308,12 +313,12 @@ public class MainActivity extends Activity {
             }
 
             /**
-             * Fedex Ground OLD - 32 Characters
-             * Fedex Express - 34 Characters
-             * Fedex Ground NEW - 34 Characters
+             * Fedex Ground New  - 34 Characters
+             * Fedex Express New - 34 Characters
+             * Fedex Express OLD - 32 Characters
              */
 
-         if (bar.length() == 12) {
+            if (bar.length() == 12) {
                 Output = FormatString.FedEXE(bar);
                 log[i] = "\n" + Output + " / " + cn.getCompany();
                 i++;
@@ -360,7 +365,7 @@ public class MainActivity extends Activity {
 
     private void DisplaySharedPreferences() {
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        Map<String, ?> allPrefs = settings.getAll(); //your sharedPreference
+        Map<String, ?> allPrefs = settings.getAll();
         Set<String> set = allPrefs.keySet();
 
         for (String s : set) {
@@ -411,7 +416,6 @@ public class MainActivity extends Activity {
         TinyDB tinydb = new TinyDB(this);
 
         if (settings != null && settings.contains("paused")) {
-            //DisplaySharedPreferences();
             loadPreferences();
             tinydb.remove("paused");
         } else {

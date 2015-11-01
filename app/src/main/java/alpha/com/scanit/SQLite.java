@@ -10,9 +10,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 
-class SQLite extends SQLiteOpenHelper {
+public class SQLite extends SQLiteOpenHelper {
 
 
     @SuppressLint("SpellCheckingInspection")
@@ -27,6 +28,7 @@ class SQLite extends SQLiteOpenHelper {
     private static final String KEY_ID = "_id";
     private static final String KEY_NAME = "Barcode";
     private static final String KEY_Barcode = "Company";
+    String TAG = "DbHelper";
 
     public SQLite(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -39,7 +41,7 @@ class SQLite extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "("
-                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " String,"
+                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT,"
                 + KEY_Barcode + " TEXT" + ")";
         db.execSQL(CREATE_TABLE);
     }
@@ -99,7 +101,7 @@ class SQLite extends SQLiteOpenHelper {
     }
 
     /**
-     * Deleting single Barcodes
+     * Deleting Barcodes
      */
 
     public void deleteBarcodes() {
@@ -121,4 +123,36 @@ class SQLite extends SQLiteOpenHelper {
 
         return c;
     }
-}
+
+        /**
+         * Helper function that parses a given table into a string
+         * and returns it for easy printing. The string consists of
+         * the table name and then each row is iterated through with
+         * column_name: value pairs printed out.
+         *
+         * @param tableName the the name of the table to parse
+         * @return the table tableName as a string
+         */
+
+        public String getTableAsString(String tableName) {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Log.i(TAG, "getTableAsString called");
+            String tableString = String.format("Table %s:\n", tableName);
+            Cursor allRows  = db.rawQuery("SELECT * FROM " + tableName, null);
+            if (allRows.moveToFirst() ){
+                String[] columnNames = allRows.getColumnNames();
+                do {
+                    for (String name: columnNames) {
+                        tableString += String.format("%s: %s\n", name,
+                                allRows.getString(allRows.getColumnIndex(name)));
+                    }
+                    tableString += "\n";
+
+                } while (allRows.moveToNext());
+            }
+            db.close();
+            return tableString;
+        }
+
+    }
+

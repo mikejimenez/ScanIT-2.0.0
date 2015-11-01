@@ -13,7 +13,6 @@ public class FormatString {
     public static String ScanFromFedEXManual;
     public static String ScanFromUPS;
     public static String ScanFromManualUPS;
-    public static String Replace;
 
     /**
      * Formatting
@@ -21,26 +20,22 @@ public class FormatString {
 
     public static String ManualFedEXG(String Number) {
         /**
-         * 23 Characters
+         * 21 Characters
          * Fedex Ground Manual
          * Format: XXXXXXX XXXXXXX XXXXXXX
-         * Replace MJ (Placeholder)
          */
-        ScanFromFedEXGManual = Number.substring(0, 9) + " " + Number.substring(9, 16) + " " + Number.substring(16, 23);
-        Replace = ScanFromFedEXGManual.replace("MJ", "");
-        return Replace;
+        ScanFromFedEXGManual = Number.substring(0, 7) + " " + Number.substring(7, 14) + " " + Number.substring(14, 21);
+        return ScanFromFedEXGManual;
     }
 
     public static String FedEXGO(String Number) {
         /**
-         * 22 Characters
+         * 21 Characters
          * Fedex Ground Old
          * Format: XXXXXXX XXXXXXX XXXXXXX
-         * Replace MJ (Placeholder)
          */
-        ScanFromFedEXG = Number.substring(0, 9) + " " + Number.substring(9, 16) + " " + Number.substring(16, 24);
-        Replace = ScanFromFedEXG.replace("MJ", "");
-        return Replace;
+        ScanFromFedEXG = Number.substring(0, 7) + " " + Number.substring(7, 14) + " " + Number.substring(14, 22);
+        return ScanFromFedEXG;
     }
 
     public static String FedEXE(String Number) {
@@ -55,7 +50,7 @@ public class FormatString {
 
     public static String ManualFedEXE(String Number) {
         /**
-         * 14 Characters
+         * 12 Characters
          * Fedex Express Manual
          * Format: XXXX XXXX XXXX
          */
@@ -75,7 +70,7 @@ public class FormatString {
 
     public static String ManualUPS(String Number) {
         /**
-         * 23 Characters
+         * 18 Characters
          * UPS Manual
          * Format: XX XXX XXX XX XXXX XXXX
          */

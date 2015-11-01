@@ -1,8 +1,7 @@
 package alpha.com.scanit;
 
-class Barcodes {
+public class Barcodes {
 
-    //private variables
     private int _id;
     private String _Barcode;
     private String _Company;

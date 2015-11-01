@@ -1,4 +1,20 @@
 ===== 1.1.0 ===== (10.18.2015)
+11.01.2015
+Barcodes.java
+- Changed from local to public class
+
+FormatString.java
+- Removed Buffer of MJ to display barcode, was getting exponential form of some numbers
+- Fixed character lengths in comments and in substrings to reflect above change
+
+MainActivity.java
+- Added more comments and removed some
+- Removed using MJ buffer like in FormatString.java
+- Added UpdateLog() to InputManual()
+
+SQLite.java Changes
+- Changed database type from String to Text to fix exponential displaying problem
+- Added getTableAsString() method to display table contents for debugging
 
 10.31.2015
 MainActivity.java Changes
@@ -10,8 +26,9 @@ MainActivity.java Changes
 - Added TinyDB to make SharePreferences saving easier
 - Moved Buttons/Button Listeners to CreateListView()
 
-Added FormString.java
-Edited SQLite.java comments
+Misc Changes
+- Added FormString.java
+- Edited SQLite.java comments
 
 10.30.2015
 Barcodes.java Changes
