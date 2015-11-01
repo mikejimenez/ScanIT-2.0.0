@@ -91,6 +91,7 @@ public class MainActivity extends Activity {
             final EditText scanData = (EditText) textEntryView.findViewById(R.id.scanData);
             final SQLite db = new SQLite(this);
             final AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
             alert.setIcon(R.drawable.perm_group_user_dictionary).setTitle("Information").setView(textEntryView).setPositiveButton("Save",
                     new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog,
@@ -159,6 +160,7 @@ public class MainActivity extends Activity {
              * System.out.println("Added Type Fedex Express");
              * System.out.println("Added Type Fedex Ground New");
              */
+
             ScanFromFedEXE = Number.substring(Number.length() - 12, Number.length());
             return ScanFromFedEXE;
         }
@@ -168,6 +170,7 @@ public class MainActivity extends Activity {
              * System.out.println("Added Type Fedex Express Old");
              * System.out.println("Added Type Fedex Ground");
              */
+
             ScanFromFedEXG = Number.substring(Number.length() - 16, Number.length() - 4);
             return ScanFromFedEXG;
         }
