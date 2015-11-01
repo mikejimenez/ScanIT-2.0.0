@@ -12,7 +12,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 
-class SQLite extends SQLiteOpenHelper {
+public class SQLite extends SQLiteOpenHelper {
 
 
     @SuppressLint("SpellCheckingInspection")
