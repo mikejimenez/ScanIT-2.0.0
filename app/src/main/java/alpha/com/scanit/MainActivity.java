@@ -368,6 +368,7 @@ public class MainActivity extends Activity {
 
 
     /**
+     * http://stackoverflow.com/a/32997044
      * Dump Shared Preferences
      */
 
