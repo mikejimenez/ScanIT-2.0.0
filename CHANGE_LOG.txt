@@ -18,6 +18,9 @@ MainActivity.java
 - Removed DisplaySharedPreferences()
 - Edited loadPreferences(), to work...
 - Removed variable paused
+- Added validation for Numbers on for FedEX on InputManual()
+- Fixed loadPreferences() to work 100% FOR SURE!
+- Changed storing of Counter to Integer
 
 SQLite.java Changes
 - Changed database type from String to Text to fix exponential displaying problem

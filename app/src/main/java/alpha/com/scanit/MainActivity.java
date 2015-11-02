@@ -5,10 +5,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -23,12 +23,8 @@ import android.widget.Toast;
 import com.alpha.ZXing.android.IntentIntegrator;
 import com.alpha.ZXing.android.IntentResult;
 
-import android.util.Log;
-
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class MainActivity extends Activity {
 
@@ -36,7 +32,6 @@ public class MainActivity extends Activity {
      * Private Strings
      */
 
-    private static final String PREFS_NAME = "Scan_IT";
     private static final String TAG = "MAKE_BARCODES";
     String ScanFromFedEXG;
     String ScanFromFedEXE;
@@ -48,6 +43,7 @@ public class MainActivity extends Activity {
     private String[] log = new String[100];
     String Output;
     private String Error = "";
+
 
 
     @Override
@@ -229,7 +225,7 @@ public class MainActivity extends Activity {
                         if (Result.length() == 0) {
                             ScanDataEmpty();
                         }
-                        if (Result.length() == 21) {
+                        if (Result.length() == 21 && TextUtils.isDigitsOnly(infoTrack.getText())) {
                             mAdd(Result, value);
                             Done = "1";
                         }
@@ -237,7 +233,7 @@ public class MainActivity extends Activity {
                             mAdd(Result, value);
                             Done = "1";
                         }
-                        if (Result.length() == 12) {
+                        if (Result.length() == 12 && TextUtils.isDigitsOnly(infoTrack.getText())) {
                             mAdd(Result, value);
                             Done = "1";
                         }
@@ -396,23 +392,24 @@ public class MainActivity extends Activity {
      */
 
     private void loadPreferences() {
-        TinyDB tinydb = new TinyDB(this);
-        CounterTxtSave = (TextView) findViewById(R.id.textView2);
+            TinyDB tinydb = new TinyDB(this);
+            CounterTxtSave = (TextView) findViewById(R.id.textView2);
 
-        String val = tinydb.getString("counter");
-        CounterTxtSave.setText(val);
-        Counter = Integer.parseInt(val);
+            String val = String.valueOf(tinydb.getInt("counter", 0));
+            CounterTxtSave.setText(val);
+            Counter = Integer.valueOf(val);
 
-        tinydb.remove("counter");
-        CreateListView();
-        UpdateLog();
+            tinydb.remove("counter");
+            CreateListView();
+            UpdateLog();
+
     }
 
     private void savePreferences() {
         CounterTxtSet = (TextView) findViewById(R.id.textView2);
-        String value = CounterTxtSet.getText().toString();
+        Integer value = Integer.parseInt(CounterTxtSet.getText().toString());
         TinyDB tinydb = new TinyDB(this);
-        tinydb.putString("counter", value);
+        tinydb.putInt("counter", value);
     }
 
 
