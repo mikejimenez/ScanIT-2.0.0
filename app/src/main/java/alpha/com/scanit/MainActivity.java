@@ -216,7 +216,6 @@ public class MainActivity extends Activity {
         final EditText infoTrack = (EditText) textEntryView.findViewById(R.id.InfoTrack);
         final EditText infoData = (EditText) textEntryView.findViewById(R.id.InfoData);
 
-        final SQLite db = new SQLite(this);
         final AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
         alert.setIcon(R.drawable.ic_dialog_alert_holo_light).setTitle("Manual Entry").setView(textEntryView).setPositiveButton("Save",
@@ -226,29 +225,25 @@ public class MainActivity extends Activity {
 
                         Editable value = infoData.getText();
                         String Result = infoTrack.getText().toString();
+                        String Done = "";
 
                         if (Result.length() == 0) {
                             ScanDataEmpty();
                         }
-
                         if (Result.length() == 21) {
-                            final String ManualScanFedExG = Result;
-
-                            db.addBarcodes(new Barcodes(ManualScanFedExG, value.toString()));
-                            Counter++;
-                            db.close();
-                            CreateListView();
-                            UpdateLog();
-                            //Todo: Fix Boxing
-                            CounterTxt.setText(Integer.valueOf(Counter).toString());
-
-                        } else if (Result.length() != 0) {
-                            db.addBarcodes(new Barcodes(Result, value.toString()));
-                            Counter++;
-                            db.close();
-                            UpdateLog();
-                            CreateListView();
-                            CounterTxt.setText(Integer.valueOf(Counter).toString());
+                            mAdd(Result, value);
+                            Done = "1";
+                        }
+                        if (Result.length() == 18) {
+                            mAdd(Result, value);
+                            Done = "1";
+                        }
+                        if (Result.length() == 12) {
+                            mAdd(Result, value);
+                            Done = "1";
+                        }
+                        else if (!Done.equals("1")){
+                            ScanDataEmpty();
                         }
                     }
                 }).setNegativeButton("Cancel",
@@ -260,6 +255,24 @@ public class MainActivity extends Activity {
                 });
         alert.show();
     }
+
+    /**
+     * To add a barcode from manual input
+     *
+     * @param Result String value from EditText
+     * @param value Editable value from EditText
+     */
+    //Todo: Fix Boxing
+    public void mAdd(String Result, Editable value) {
+        final SQLite db = new SQLite(this);
+        db.addBarcodes(new Barcodes(Result, value.toString()));
+        Counter++;
+        db.close();
+        UpdateLog();
+        CreateListView();
+        CounterTxt.setText(Integer.valueOf(Counter).toString());
+    }
+
     public void UpdateLog() {
 
         /**
@@ -268,8 +281,8 @@ public class MainActivity extends Activity {
 
         SQLite db = new SQLite(this);
         List<Barcodes> Barcodes = db.getBarCodes();
-
         db.close();
+
         int i = 0;
         for (Barcodes cn : Barcodes) {
             String bar = cn.getBarcode();

@@ -11,10 +11,18 @@ MainActivity.java
 - Added more comments and removed some
 - Removed using MJ buffer like in FormatString.java
 - Added UpdateLog() to InputManual()
+- Added variable Done
+- Added Method mAdd()
+- Edited Method InputManual() to only allow FedEX,UPS
 
 SQLite.java Changes
 - Changed database type from String to Text to fix exponential displaying problem
 - Added getTableAsString() method to display table contents for debugging
+
+Misc Changes
+- Fixed adding invalid scans
+- Removed hard coded email TO for public release
+- Added credit to code from stackoverflow.com
 
 10.31.2015
 MainActivity.java Changes
