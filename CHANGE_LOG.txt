@@ -14,6 +14,10 @@ MainActivity.java
 - Added variable Done
 - Added Method mAdd()
 - Edited Method InputManual() to only allow FedEX,UPS
+- Removed Load()
+- Removed DisplaySharedPreferences()
+- Edited loadPreferences(), to work...
+- Removed variable paused
 
 SQLite.java Changes
 - Changed database type from String to Text to fix exponential displaying problem
@@ -58,7 +62,7 @@ Future changes
 
 10.29.2015
 - Adding loadPreferemces()
-- Adding LoadDatat()
+- Adding LoadData()
 - Trying to fix ActivityState data by using onStop()
 - Adding savePreferences()
 - Adding saveLog()

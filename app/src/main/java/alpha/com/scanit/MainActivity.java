@@ -63,8 +63,7 @@ public class MainActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_main);
-
-        LoadData();
+        loadPreferences();
     }
 
 
@@ -382,24 +381,6 @@ public class MainActivity extends Activity {
         }
     }
 
-
-    /**
-     * http://stackoverflow.com/a/32997044
-     * Dump Shared Preferences
-     */
-
-    private void DisplaySharedPreferences() {
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        Map<String, ?> allPrefs = settings.getAll();
-        Set<String> set = allPrefs.keySet();
-
-        for (String s : set) {
-            Log.i(TAG, s + "<" + allPrefs.get(s).getClass().getSimpleName() + "> =  "
-                    + allPrefs.get(s).toString());
-        }
-    }
-
-
     /**
      * Error Message
      */
@@ -410,51 +391,28 @@ public class MainActivity extends Activity {
         toast.show();
     }
 
-
     /**
      * Save / Load State Data
      */
 
     private void loadPreferences() {
-
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         TinyDB tinydb = new TinyDB(this);
+        CounterTxtSave = (TextView) findViewById(R.id.textView2);
 
-        if (settings != null && settings.contains("counter")) {
-            CounterTxtSave = (TextView) findViewById(R.id.textView2);
-            String val = tinydb.getString("counter");
+        String val = tinydb.getString("counter");
+        CounterTxtSave.setText(val);
+        Counter = Integer.parseInt(val);
 
-            CounterTxtSave.setText(val);
-            Counter = Integer.parseInt(val);
-
-            CreateListView();
-            UpdateLog();
-        }
+        tinydb.remove("counter");
+        CreateListView();
+        UpdateLog();
     }
-    private void LoadData() {
 
-        /**
-         * Restore preferences
-         */
-
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-        TinyDB tinydb = new TinyDB(this);
-
-        if (settings != null && settings.contains("paused")) {
-            loadPreferences();
-            tinydb.remove("paused");
-        } else {
-            CreateListView();
-            UpdateLog();
-            CounterTxtSet = (TextView) findViewById(R.id.textView2);
-            CounterTxtSet.setText("0");
-        }
-    }
     private void savePreferences() {
-        String value = CounterTxt.getText().toString();
+        CounterTxtSet = (TextView) findViewById(R.id.textView2);
+        String value = CounterTxtSet.getText().toString();
         TinyDB tinydb = new TinyDB(this);
         tinydb.putString("counter", value);
-        tinydb.putString("paused", "Y");
     }
 
 
